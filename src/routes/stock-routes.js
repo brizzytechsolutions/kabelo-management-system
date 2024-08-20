@@ -72,7 +72,12 @@ router.get('/:id', authMiddleware, stockController.getStockById);
  *             schema:
  *               $ref: '#/components/schemas/StockItem'
  */
-router.post('/', authMiddleware, upload.array('images', 3), stockController.createStock);
+router.post('/', authMiddleware, upload.fields([
+  { name: 'images', maxCount: 3 },
+  { name: 'accessories[0][image]', maxCount: 1 },
+  { name: 'accessories[1][image]', maxCount: 1 },
+  { name: 'accessories[2][image]', maxCount: 1 }
+]), stockController.createStock);
 
 /**
  * @swagger
@@ -101,7 +106,12 @@ router.post('/', authMiddleware, upload.array('images', 3), stockController.crea
  *             schema:
  *               $ref: '#/components/schemas/StockItem'
  */
-router.put('/:id', authMiddleware, upload.array('images', 3), stockController.updateStock);
+router.put('/:id', authMiddleware, upload.fields([
+    { name: 'images', maxCount: 3 },
+    { name: 'accessories[0][image]', maxCount: 1 },
+    { name: 'accessories[1][image]', maxCount: 1 },
+    { name: 'accessories[2][image]', maxCount: 1 }
+  ]), stockController.updateStock);
 
 /**
  * @swagger

@@ -1,6 +1,6 @@
 const stockService = require('../services/stock-service');
+const accessoryService = require('../services/accessory-service');
 
-// In the controller
 exports.getAllStocks = async (req, res, next) => {
   try {
     console.log('Query Params:', req.query);
@@ -20,7 +20,7 @@ exports.getAllStocks = async (req, res, next) => {
       retailPrice: item.retailPrice,
       costPrice: item.costPrice,
       accessories: item.accessories,
-      images: item.images, // Ensure images are correctly passed here
+      images: item.images,
       dtCreated: item.dtCreated,
       dtUpdated: item.dtUpdated,
     }));
@@ -63,12 +63,17 @@ exports.createStock = async (req, res, next) => {
 
 exports.updateStock = async (req, res, next) => {
   try {
-    const stock = await stockService.updateStock(req.params.id, req.body);
+    console.log('Request body:', req.body);
+    console.log('Request files:', req.files);
+
+    const stock = await stockService.updateStock(req.params.id, req.body, req.files);
     res.json(stock);
   } catch (err) {
+    console.error('Error updating stock:', err);
     res.status(400).json({ error: err.message });
   }
 };
+
 
 exports.deleteStock = async (req, res, next) => {
   try {

@@ -18,10 +18,10 @@ exports.createAccessory = async (req, res, next) => {
   }
 };
 
-exports.deleteAccessory = async (req, res, next) => {
+exports.deleteAccessory = async (req, res) => {
   try {
     const accessory = await accessoryService.deleteAccessory(req.params.id);
-    res.json({ message: 'Accessory deleted successfully' });
+    res.json({ message: 'Accessory deleted successfully', accessory });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -1,7 +1,6 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-// Swagger configuration options
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -35,8 +34,15 @@ const swaggerOptions = {
             vin: { type: 'string', description: 'Vehicle Identification Number' },
             retailPrice: { type: 'number', description: 'Retail price of the vehicle' },
             costPrice: { type: 'number', description: 'Cost price of the vehicle' },
-            accessories: { type: 'array', items: { type: 'string', description: 'List of accessory IDs' } },
-            images: { type: 'array', items: { type: 'string', description: 'URLs or paths to images' } },
+            accessories: { 
+              type: 'array', 
+              items: { $ref: '#/components/schemas/Accessory' },
+              description: 'List of accessory objects'
+            },
+            images: { 
+              type: 'array', 
+              items: { type: 'string', description: 'URLs or paths to images' } 
+            },
             dtCreated: { type: 'string', format: 'date-time', description: 'Date and time the stock item was created' },
             dtUpdated: { type: 'string', format: 'date-time', description: 'Date and time the stock item was last updated' },
           },
@@ -59,6 +65,30 @@ const swaggerOptions = {
             description: { type: 'string', description: 'Description of the accessory' },
           },
           required: ['name']  // Only 'name' is required
+        },
+        NewStockItem: {
+          type: 'object',
+          properties: {
+            regNo: { type: 'string', description: 'Registration number of the vehicle' },
+            make: { type: 'string', description: 'Make of the vehicle' },
+            model: { type: 'string', description: 'Model of the vehicle' },
+            modelYear: { type: 'integer', description: 'Year the vehicle model was made' },
+            kms: { type: 'integer', description: 'Kilometers driven by the vehicle' },
+            color: { type: 'string', description: 'Color of the vehicle' },
+            vin: { type: 'string', description: 'Vehicle Identification Number' },
+            retailPrice: { type: 'number', description: 'Retail price of the vehicle' },
+            costPrice: { type: 'number', description: 'Cost price of the vehicle' },
+            accessories: { 
+              type: 'array', 
+              items: { $ref: '#/components/schemas/Accessory' },
+              description: 'List of accessory objects'
+            },
+            images: { 
+              type: 'array', 
+              items: { type: 'string', format: 'binary', description: 'Uploaded images' } 
+            },
+          },
+          required: ['regNo', 'make', 'model', 'modelYear', 'kms', 'color', 'vin', 'retailPrice', 'costPrice'],
         }
       },
     },
@@ -68,13 +98,11 @@ const swaggerOptions = {
       }
     ],
   },
-  apis: ['./src/routes/*.js'], // Location of your API specification files
+  apis: ['./src/routes/*.js'],
 };
 
-// Generate swagger specification document
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-// Function to setup Swagger UI middleware
 module.exports = (app) => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };

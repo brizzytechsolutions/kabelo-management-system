@@ -24,7 +24,7 @@ const authMiddleware = require('../middlewares/auth-middleware');
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/definitions/Accessory'
+ *                 $ref: '#/components/schemas/Accessory'
  */
 router.get('/', authMiddleware, accessoryController.getAllAccessories);
 
@@ -39,14 +39,14 @@ router.get('/', authMiddleware, accessoryController.getAllAccessories);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/definitions/NewAccessory'
+ *             $ref: '#/components/schemas/Accessory'
  *     responses:
  *       201:
  *         description: The created accessory
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/definitions/Accessory'
+ *               $ref: '#/components/schemas/Accessory'
  */
 router.post('/', authMiddleware, accessoryController.createAccessory);
 

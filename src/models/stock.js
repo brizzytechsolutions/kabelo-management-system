@@ -11,7 +11,7 @@ const StockItemSchema = new mongoose.Schema({
   retailPrice: { type: Number, required: true },
   costPrice: { type: Number, required: true },
   accessories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Accessory' }],
-  images: [{ type: String }], // Paths to the images of the stock item
+  images: [{ type: String }],
   dtCreated: { type: Date, default: Date.now },
   dtUpdated: { type: Date, default: Date.now },
 });
